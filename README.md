@@ -64,166 +64,25 @@ src/main/java/org/example/library/
 
 ### Use Case
 
-```plantuml
-@startuml
-left to right direction
-skinparam actorStyle awesome
-
-actor "Библиотекарь" as user
-
-rectangle "Book Library" {
-    usecase "Просмотр списка книг" as UC1
-    usecase "Добавление книги"    as UC2
-    usecase "Удаление книги"      as UC3
-    usecase "Изменение статуса"   as UC4
-    usecase "Логирование"         as UC5
-}
-
-user --> UC1
-user --> UC2
-user --> UC3
-user --> UC4
-
-UC1 .> UC5 : <<include>>
-UC2 .> UC5 : <<include>>
-UC3 .> UC5 : <<include>>
-UC4 .> UC5 : <<include>>
-@enduml
-```
+![Class Diagram](docs/diagrams/Use Case.png)
 
 ---
 
 ### Диаграмма классов
 
-```plantuml
-@startuml
-skinparam classAttributeIconSize 0
-
-interface BookDAO {
-    + getAll(): List<Book>
-    + getById(id: int): Book
-    + add(book: Book): void
-    + update(book: Book): void
-    + delete(id: int): void
-}
-
-class Book {
-    - id: int
-    - title: String
-    - author: String
-    - year: int
-    - status: String
-    + getters/setters
-}
-
-class ListBookDAO {
-    - books: List<Book>
-    + getAll(): List<Book>
-    + getById(id: int): Book
-    + add(book: Book): void
-    + update(book: Book): void
-    + delete(id: int): void
-}
-
-class BookFactory {
-    + {static} MEMORY: String
-    + {static} create(type: String): BookDAO
-}
-
-class BookController {
-    - dao: BookDAO
-    - logger: AppLogger
-    + loadAll(): List<Book>
-    + addBook(book: Book): void
-    + deleteBook(id: int): void
-    + toggleStatus(book: Book): void
-    + getNextId(): int
-}
-
-class AppLogger {
-    - {static} instance: AppLogger
-    - {static} getInstance(): AppLogger
-    + log(action: String, details: String): void
-}
-
-class HelloController {
-    - controller: BookController
-    + initialize(): void
-    + onLoad(): void
-    + onAdd(): void
-    + onDelete(): void
-    + onToggleStatus(): void
-}
-
-ListBookDAO   ..|> BookDAO
-BookFactory   ..>  BookDAO       : creates
-BookController -->  BookDAO      : uses
-BookController -->  AppLogger    : uses
-HelloController --> BookController : uses
-BookController ..>  Book
-@enduml
-```
+![Class Diagram](docs/diagrams/Диаграмма классов.png)
 
 ---
 
 ### Контекстная диаграмма
 
-```plantuml
-@startuml
-skinparam rectangle {
-    BorderColor #4CAF50
-    BackgroundColor #E8F5E9
-}
-
-actor "Библиотекарь" as user
-
-rectangle "Book Library\n[JavaFX Desktop]" as system
-
-database "Коллекция\nв памяти" as mem
-file     "app.log"              as log
-file     "config.properties"    as cfg
-
-user   --> system : команды (CRUD)
-system --> user   : данные / UI
-system --> mem    : чтение / запись
-system --> log    : запись событий
-cfg    --> system : тип источника данных
-@enduml
-```
+![Class Diagram](docs/diagrams/Контекстная диаграмма.png)
 
 ---
 
 ### ER-диаграмма
 
-```plantuml
-@startuml
-entity "BOOK" {
-    * id        : INT       <<PK>>
-    --
-    title       : VARCHAR
-    author      : VARCHAR
-    year        : INT
-    status      : VARCHAR
-}
-
-entity "LOG_ENTRY" {
-    * id        : INT       <<PK>>
-    --
-    timestamp   : DATETIME
-    action      : VARCHAR
-    details     : VARCHAR
-}
-
-entity "CONFIG" {
-    * key       : VARCHAR   <<PK>>
-    --
-    value       : VARCHAR
-}
-
-BOOK        ||--o{ LOG_ENTRY : triggers
-CONFIG      }|--|| BOOK      : "configures source"
-@enduml
-```
+![Class Diagram](docs/diagrams/ER-диаграмма.png)
 
 ---
 
