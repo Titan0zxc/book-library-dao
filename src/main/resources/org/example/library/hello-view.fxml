@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.library.HelloController">
+
+    <padding><Insets top="12" right="14" bottom="12" left="14"/></padding>
+
+    <!-- Toolbar: источник данных -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Источник данных:"/>
+        <ComboBox fx:id="sourceBox" prefWidth="140"/>
+        <Button text="Загрузить" onAction="#onLoad"/>
+    </HBox>
+
+    <!-- Таблица книг -->
+    <TableView fx:id="bookTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId"     text="ID"      prefWidth="45"/>
+            <TableColumn fx:id="colTitle"  text="Название" prefWidth="220"/>
+            <TableColumn fx:id="colAuthor" text="Автор"   prefWidth="160"/>
+            <TableColumn fx:id="colYear"   text="Год"     prefWidth="60"/>
+            <TableColumn fx:id="colStatus" text="Статус"  prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <!-- Форма добавления -->
+    <TitledPane text="Добавить книгу" expanded="true">
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <padding><Insets top="6" right="6" bottom="6" left="6"/></padding>
+            <Label text="Название:"/>
+            <TextField fx:id="fieldTitle" prefWidth="200" promptText="Название книги"/>
+            <Label text="Автор:"/>
+            <TextField fx:id="fieldAuthor" prefWidth="160" promptText="Автор"/>
+            <Label text="Год:"/>
+            <TextField fx:id="fieldYear" prefWidth="70" promptText="2024"/>
+            <Button text="Добавить" onAction="#onAdd" style="-fx-base: #4CAF50; -fx-text-fill: white;"/>
+        </HBox>
+    </TitledPane>
+
+    <!-- Кнопки действий -->
+    <HBox spacing="10">
+        <Button text="Изменить статус" onAction="#onToggleStatus"/>
+        <Button text="Удалить выбранную" onAction="#onDelete"
+                style="-fx-base: #f44336; -fx-text-fill: white;"/>
+    </HBox>
+
+    <!-- Лог операций -->
+    <TitledPane text="Лог операций" expanded="true">
+        <TextArea fx:id="logArea" editable="false" prefHeight="100"
+                  style="-fx-font-family: monospace; -fx-font-size: 12;"/>
+    </TitledPane>
+
+</VBox>
